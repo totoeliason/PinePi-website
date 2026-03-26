@@ -1,3 +1,27 @@
+/*设置网页主容量的宽度*/
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/*所有图片自动适配*/
+img {
+    max-width: 50%;
+    height: auto;
+}
+
+/*手机端适配设置*/
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    .nav-links {
+        display: block;
+    }
+}
+
+/*网页背景与整体风格*/
 body {
     background-color: #a8d3fa;
     display: flex;
@@ -5,13 +29,14 @@ body {
     align-items: center;
     padding-top: 50px;
     font-family: sans-serif;
-     background-image: url("pinepi-website/assets/my logo.jpg");
+     background-image: url("assets/my logo.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
 
+/*按钮样式*/
 button {
     background-color: #df79fb;
     color: white;
@@ -27,7 +52,7 @@ button:hover {
     transform: scale(1.1);
 }
 
-
+/*导航栏样式*/
 nav {
     background: #333;
     padding: 1rem;
@@ -50,4 +75,122 @@ nav {
 .active {
     background-color: #ff4757;
     font-weight: bold;
+}
+
+
+
+   /*🎈 悬浮球气泡功能样式*/
+.floating-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.avatar {
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+
+    position: relative;
+    z-index: 1002;
+}
+
+.speech-bubble {
+    position: absolute;
+    bottom: 135px; /* 在头像上方 135 像素处 */
+    right: -10px;  /* 稍微往右偏一点 */
+    background-color: white; /* 气泡底色 */
+    color: #333; /* 颜文字颜色 */
+    padding: 10px 18px; /* 内边距 */
+    border-radius: 20px; /* 圆角 */
+    font-family: sans-serif; /* 字体 */
+    font-size: 16px; /* 字体大小 */
+    white-space: nowrap; /* 强制颜文字在一行显示，不换行 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+
+    opacity: 0;
+    transform: scale(0);
+    /* 设置缩放的核心点为右下角 */
+    transform-origin: bottom right;
+    /* 过渡动画：0.3秒，带点反弹效果 */
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; /* 贴在气泡底部 */
+    right: 30px; /* 距离右侧 30 像素 */
+    border-width: 10px 10px 0; /* 用边框拼出三角形 */
+    border-style: solid;
+    border-color: white transparent transparent; /* 三角形颜色和气泡底色一致 */
+}
+
+.speech-bubble.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@media screen and (max-width: 768px) {
+    .floating-container {
+        bottom: 10px;
+        right: 10px;
+    }
+    .avatar {
+        width: 80px;
+        height: 80px;
+    }
+    .speech-bubble {
+        bottom: 95px;
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+
+/* =========================================
+   🌟 真正的五角星样式
+   ========================================= */
+
+/* 1. 定义闪烁和旋转动画（让星星更灵动） */
+@keyframes blinkAndRotate {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.8) rotate(0deg); /* 初始状态：半透明，缩小，不旋转 */
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg); /* 中间状态：全透明，放大，旋转180度 */
+    }
+}
+
+/* 2. 星星的基础样式 */
+.star {
+    position: absolute;
+    /* 星星的大小，JS 会随机调整，这里设个基准 */
+    width: 5px;
+    height: 5px;
+
+    /* 🌟 核心：使用 clip-path 裁切出五角星形状 */
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+
+    /* 星星的颜色（碎钻感） */
+    background: linear-gradient(135deg, #ffffff 0%, #fffacd 100%); /* 白到淡黄的渐变 */
+
+    /* 加一个淡淡的发光外圈 */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+
+    /* 应用新定义的动画 */
+    animation: blinkAndRotate 3s infinite ease-in-out;
+
+    /* 防止干扰点击 */
+    pointer-events: none;
+    z-index: 1; /* 保证在背景图之上，但在道具之下 */
 }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>PinePiIove(・ω・)ノ</title>
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 
@@ -20,9 +21,105 @@
 <main>
     <h1>欢迎来到 PinePi 的世界！ (・ω・)ノ</h1>
     <p>我萌萌</p>
-    <img src="assets/my logo.jpg" alt="PinePi之本体( ̀⌄ ́)" class="avatar">
-    <p>这是我。你好你好。</p>
-    button>点我有惊喜喵</button>
+
+<div class="floating-container" id="pinePiControl">
+
+    <img src="assets/my logo.jpg" alt="PinePi之本体" class="avatar">
+
+    <div class="speech-bubble" id="speechBubble">
+        <span class="bubble-text" id="bubbleText">
+            </span>
+    </div>
+</div>    <p>这是我。你好你好。</p>
+
+    <button>点我有惊喜喵</button>
+
+    <script>
+
+// 气泡颜文字内容
+    const emoticons = [
+        "(・ω・)ノ",
+        "( ̀⌄ ́)",
+        "(￣▽ ￣)～■",
+        "o(≧v≦)o",
+        "(●'◡'●)",
+        "(*☻-☻*)",
+        "ε=ε=(ノ≧∇≦)ノ",
+        "(⁎⁍̴̛ᴗ⁍̴̛⁎)",
+        "╰(*´ ︶ `*)╯",
+        "(´▽ `)ʃ",
+        "(◐‿◑)﻿",
+        "( *｀ω´)"
+    ];
+
+    // 2. 获取 HTML 中的元素 (ID 必须和上面的一模一样)
+    const pinePiControl = document.getElementById('pinePiControl');
+    const speechBubble = document.getElementById('speechBubble');
+    const bubbleText = document.getElementById('bubbleText');
+
+    // 3. 监听点击事件
+    pinePiControl.addEventListener('click', function(e) {
+        // 阻止点击事件向上冒泡 (防止干扰页面其他点击)
+        e.stopPropagation();
+
+        // --- 核心逻辑 ---
+
+        // (a) 从列表中随机选一个颜文字
+        const randomIndex = Math.floor(Math.random() * emoticons.length);
+        const selectedEmoticon = emoticons[randomIndex];
+
+        // (b) 把选中的颜文字填进气泡
+        bubbleText.innerText = selectedEmoticon;
+
+        // (c) 给气泡加上 'show' 这个 CSS 类，让它淡入淡出显示出来
+        speechBubble.classList.add('show');
+
+        // (d) 设定一个定时器，在 3 秒后自动把气泡藏起来 (移除 'show' 类)
+        clearTimeout(pinePiControl.timer); // 重新点击时重置定时器
+        pinePiControl.timer = setTimeout(function() {
+            speechBubble.classList.remove('show');
+        }, 3000); // 3000毫秒 = 3秒
+    });
+
+    // (可选) 如果点击网页其他任何地方，也把气泡藏起来
+    document.addEventListener('click', function() {
+        speechBubble.classList.remove('show');
+    });
+</script>
+
+<script>
+    function createTrueStars() {
+        const container = document.body;
+        // 撒 40 颗星星即可，太多了会乱
+        for (let i = 0; i < 40; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+
+            // 随机位置
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+
+            // 🛑 核心：调大基础尺寸（15px - 25px 之间），保证看清五角星形状
+            const size = Math.random() * 30 + 15;
+
+            // 随机闪烁和旋转速度
+            const duration = Math.random() * 4 + 2; // 2s - 6s
+            const delay = Math.random() * 5;
+
+            star.style.left = `${x}px`;
+            star.style.top = `${y}px`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+
+            container.appendChild(star);
+        }
+    }
+    // 确保页面加载完成后执行
+    window.onload = createTrueStars;
+</script>
+
 </body>
 
 </html>
